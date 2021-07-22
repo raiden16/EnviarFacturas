@@ -90,6 +90,7 @@ Public Class EnvioFacturacion
 
                 If EmailC <> "" Then
 
+                    UpdatePDFXML(DocNum, pdfSAP, xmlSAP)
                     EnviarCorreo(DocNum, EmailC, pdf, xml, Tipo, pdfSAP, xmlSAP, CardCode)
 
                 Else
