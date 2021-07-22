@@ -188,7 +188,7 @@ Public Class EnvioFacturacion
 
         Catch ex As Exception
 
-            SBOApplication.MessageBox("Error en PDFXML. " & ex.Message)
+            SBOApplication.MessageBox("Error en UpdatePDFXML. " & ex.Message)
 
         End Try
 
@@ -200,8 +200,8 @@ Public Class EnvioFacturacion
         'MsgBox("Validacion de Documentos exitosa")
         Dim message As New MailMessage
         Dim smtp As New SmtpClient
-        Dim oRecSettxb, oRecSettxb1, oRecSettxb2 As SAPbobsCOM.Recordset
-        Dim stQuerytxb, stQuerytxb1, stQuerytxb2 As String
+        Dim oRecSettxb As SAPbobsCOM.Recordset
+        Dim stQuerytxb As String
         Dim EmailU, Pass, EmailCC, Subject, Body, smtpService, Puerto, SegSSL As String
 
         Try
@@ -261,12 +261,33 @@ Public Class EnvioFacturacion
                 smtp.Send(message)
 
                 SBOApplication.MessageBox("El correo se envio correctamente.")
+                UpdateCorreoEnviado(DocNum)
 
             End If
 
         Catch ex As Exception
 
             SBOApplication.MessageBox("Error en EnviarCorreo. " & ex.Message)
+
+        End Try
+
+    End Function
+
+
+    Public Function UpdateCorreoEnviado(ByVal DocNum As String)
+
+        Dim oRecSettxb1 As SAPbobsCOM.Recordset
+        Dim stQuerytxb1 As String
+
+        Try
+
+            oRecSettxb1 = SBOCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+            stQuerytxb1 = "Update OINV set ""U_TekEnviado""='Y' where ""DocNum""=" & DocNum
+            oRecSettxb1.DoQuery(stQuerytxb1)
+
+        Catch ex As Exception
+
+            SBOApplication.MessageBox("Error en UpdateCorreoEnviado. " & ex.Message)
 
         End Try
 
