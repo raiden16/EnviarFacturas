@@ -88,9 +88,10 @@ Public Class EnvioFacturacion
 
             If FileQuery.Count > 0 And fileQuery1.Count > 0 Then
 
+                UpdatePDFXML(DocNum, pdfSAP, xmlSAP)
+
                 If EmailC <> "" Then
 
-                    UpdatePDFXML(DocNum, pdfSAP, xmlSAP)
                     EnviarCorreo(DocNum, EmailC, pdf, xml, Tipo, pdfSAP, xmlSAP, CardCode)
 
                 Else
